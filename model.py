@@ -371,8 +371,13 @@ def stack_y_batch(data, offsets, block_size):
 
     return np.asarray(y_offsets)
 
-# Step 44 - get_batch (not yet solved)
-# TODO: implement
+# Step 44 - get_batch
+def get_batch(data, block_size, batch_size, rng):
+    # TODO: package one training batch (X, Y) of shape (batch_size, block_size) from data using rng.
+    offsets =  sample_random_batch_offsets(len(data), block_size, batch_size, rng)
+    x_batches = stack_x_batch(data, offsets, block_size)
+    y_batches = stack_y_batch(data, offsets, block_size)
+    return x_batches, y_batches
 
 # Step 45 - allocate_count_matrix (not yet solved)
 # TODO: implement
