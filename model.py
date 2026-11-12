@@ -556,8 +556,15 @@ def cross_entropy_loss(probs, targets):
     # TODO: gather correct-token probs, take log, average the negatives
     return -np.mean(array_log(gather_correct_token_probs(probs, targets)))
 
-# Step 66 - derive_dlogits_on_paper (not yet solved)
-# TODO: implement
+# Step 66 - derive_dlogits_on_paper
+def derive_dlogits_on_paper():
+    """Return a string summarizing the derivation of dL/dlogits for mean cross-entropy."""
+    # TODO: return a short written derivation ending in dL/dlogits = (probs - onehot(targets)) / B
+    notes = """
+    For a prob = softmax(logits) and the mean cross-entropy liss is L  = - 1/B sum(log(probs)). Differentiating log probs with respect to logits uses the softmax-Jocabian identitiy and yields probs - 1 [j=y].
+    Averaging across the batch gives dL/dlogits = (probs - onehot(targets)) / B.
+    """
+    return notes
 
 # Step 67 - compute_dlogits (not yet solved)
 # TODO: implement
