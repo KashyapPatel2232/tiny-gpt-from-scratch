@@ -575,8 +575,16 @@ def compute_dlogits(probs, targets):
         one_hot_targets[i, targets[i]] = 1
     return (probs - one_hot_targets)/ len(targets)
 
-# Step 68 - derive_dw_on_paper (not yet solved)
-# TODO: implement
+# Step 68 - derive_dw_on_paper
+def derive_dw_on_paper():
+    """Return a short written derivation of dL/dW for the lookup-as-matmul forward."""
+    notes = """Forward: logits = onehot(ids) @ W, equivalently logits[b] = W[ids[b]].
+Shapes: ids (B,), onehot O (B, V), W (V, D), logits (B, D), dlogits (B, D).
+Chain rule: dL/dW = O.T @ dlogits, shape (V, D).
+Since O has a single 1 per row at column ids[b], O.T @ dlogits sums rows of dlogits into rows of dW.
+Row v of dW equals the sum of dlogits[b] over all b with ids[b] == v.
+Implementation: scatter-add dlogits rows into dW at indices ids."""
+    return notes
 
 # Step 69 - compute_dw_scatter_add (not yet solved)
 # TODO: implement
