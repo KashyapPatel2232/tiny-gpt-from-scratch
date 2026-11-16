@@ -648,8 +648,11 @@ def sample_from_neural_bigram(w, start_id, num_tokens, itos):
         output += decode_ids([current_id], itos)
     return output
 
-# Step 74 - linear_forward (not yet solved)
-# TODO: implement
+# Step 74 - linear_forward
+def linear_forward(x, w):
+    # TODO: compute Y = X @ W and return {'y': Y, 'cache': {'x': x, 'w': w}}.
+    Y = x @ w
+    return {'y':Y, 'cache':{'x':x, 'w':w}}
 
 # Step 75 - derive_dx_on_paper (not yet solved)
 # TODO: implement
