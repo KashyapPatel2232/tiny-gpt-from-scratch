@@ -754,8 +754,14 @@ def layernorm_forward_variance(x, mean):
     # TODO: compute per-row variance using mean and return a (B, 1) array
     return np.mean((x - mean)**2, axis = -1, keepdims = True)
 
-# Step 86 - layernorm_forward_normalize (not yet solved)
-# TODO: implement
+# Step 86 - layernorm_forward_normalize
+import numpy as np
+
+def layernorm_forward_normalize(x, mean, var, eps):
+    """Normalize each row of x to zero mean and unit variance."""
+    # TODO: subtract the per-row mean and divide by sqrt(var + eps)
+    x_hat = (x - mean)/ (np.sqrt(var) + eps)
+    return x_hat
 
 # Step 87 - layernorm_forward_affine (not yet solved)
 # TODO: implement
