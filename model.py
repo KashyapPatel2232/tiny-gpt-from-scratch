@@ -760,7 +760,7 @@ import numpy as np
 def layernorm_forward_normalize(x, mean, var, eps):
     """Normalize each row of x to zero mean and unit variance."""
     # TODO: subtract the per-row mean and divide by sqrt(var + eps)
-    x_hat = (x - mean)/ (np.sqrt(var) + eps)
+    x_hat = (x - mean)/ np.sqrt(var + eps)
     return x_hat
 
 # Step 87 - layernorm_forward_affine
@@ -795,8 +795,27 @@ def layernorm_backward_divide_std(dy, cache):
     output = dy / np.sqrt(cache['var']+cache['eps'])
     return output
 
-# Step 90 - layernorm_backward_full (not yet solved)
-# TODO: implement
+# Step 90 - layernorm_backward_full
+import numpy as np
+
+def layernorm_backward_full(dy, cache):
+    """Full LayerNorm backward. Return {'dx', 'dgamma', 'dbeta'}."""
+    # TODO: chain rule back through affine, divide-by-std, and subtract-mean.
+    x_hat = cache['x_hat']
+    var = cache['var']
+    eps = cache['eps']
+    gamma = cache['gamma']
+
+    N = dy.shape[-1]
+    std_inv = 1.0 / np.sqrt(var + eps)
+
+    dx_hat = dy * gamma
+
+    dx = (N * dx_hat - np.sum(dx_hat, axis=-1, keepdims=True) - x_hat * np.sum(dx_hat * x_hat, axis=-1, keepdims=True)) * std_inv / N
+    
+    dgamma = np.sum(dy * x_hat, axis = 0)
+    dbeta = np.sum(dy, axis = 0)
+    return {'dx':dx, 'dgamma':dgamma, 'dbeta':dbeta}
 
 # Step 91 - layernorm_backward_implementation (not yet solved)
 # TODO: implement
