@@ -817,8 +817,11 @@ def layernorm_backward_full(dy, cache):
     dbeta = np.sum(dy, axis = 0)
     return {'dx':dx, 'dgamma':dgamma, 'dbeta':dbeta}
 
-# Step 91 - layernorm_backward_implementation (not yet solved)
-# TODO: implement
+# Step 91 - layernorm_backward_implementation
+def layernorm_backward_implementation(d_out, cache):
+    # TODO: return {'dx', 'dgamma', 'dbeta'} gradients for LayerNorm given d_out and the forward cache.
+    grads = layernorm_backward_full(d_out, cache)
+    return grads
 
 # Step 92 - create_token_embedding (not yet solved)
 # TODO: implement
