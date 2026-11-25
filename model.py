@@ -1202,8 +1202,17 @@ def multihead_output_projection_forward(merged, w_out, b_out):
     cache = {'merged':merged, 'w_out':w_out}
     return {'out':output, 'cache':cache}
 
-# Step 130 - multihead_reshape_transpose_backward (not yet solved)
-# TODO: implement
+# Step 130 - multihead_reshape_transpose_backward
+def multihead_reshape_transpose_backward(d_merged, shape_info):
+    """Invert merge_heads_to_d_model to recover (B, n_heads, T, d_head) gradients."""
+    # TODO: undo the merge/transpose/reshape chain from the forward pass
+    B = shape_info['B']
+    T = shape_info['T']
+    n_heads = shape_info['n_heads']
+    d_head = shape_info['d_head']
+    output = reshape_to_heads(d_merged, n_heads, d_head)
+    transposed = transpose_heads_to_front(output)
+    return transposed
 
 # Step 131 - ffn_linear_one_forward (not yet solved)
 # TODO: implement
