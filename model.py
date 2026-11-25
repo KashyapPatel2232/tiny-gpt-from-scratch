@@ -1119,8 +1119,13 @@ def transpose_heads_to_front(x_heads):
     # TODO: move the heads axis in front of the time axis
     return x_heads.transpose(0, 2, 1, 3)
 
-# Step 121 - get_multihead_n_heads (not yet solved)
-# TODO: implement
+# Step 121 - get_multihead_n_heads
+def get_multihead_n_heads(config):
+    # TODO: return the number of attention heads stored in the multi-head config dict.
+    d_model = config['d_model']
+    n_heads = config['n_heads']
+    out = choose_attention_head_config(d_model, n_heads)
+    return out['n_heads']
 
 # Step 122 - get_multihead_sequence_length (not yet solved)
 # TODO: implement
