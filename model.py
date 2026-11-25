@@ -1111,8 +1111,13 @@ def reshape_to_heads(x, n_heads, d_head):
     x_new = x.reshape(B, T, n_heads, d_head)
     return x_new
 
-# Step 120 - transpose_heads_to_front (not yet solved)
-# TODO: implement
+# Step 120 - transpose_heads_to_front
+import numpy as np
+
+def transpose_heads_to_front(x_heads):
+    """Transpose (B, T, n_heads, d_head) to (B, n_heads, T, d_head)."""
+    # TODO: move the heads axis in front of the time axis
+    return x_heads.transpose(0, 2, 1, 3)
 
 # Step 121 - get_multihead_n_heads (not yet solved)
 # TODO: implement
