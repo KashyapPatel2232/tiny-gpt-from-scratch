@@ -1247,8 +1247,34 @@ def ffn_linear_two_forward(a1, w2, b2):
     cache = {'a1':a1, 'w2':w2}
     return {'h2': output, 'cache':cache}
 
-# Step 134 - ffn_backward (not yet solved)
-# TODO: implement
+# Step 134 - ffn_backward
+def ffn_backward(d_out, cache):
+    """Backprop through linear2 -> ReLU -> linear1 of the FFN.
+
+    cache keys: 'x', 'w1', 'h1', 'a1', 'w2'.
+    Returns dict with keys: 'dx', 'dw1', 'db1', 'dw2', 'db2'.
+    """
+    # TODO: route d_out back through linear2, ReLU, and linear1 to get input and param grads
+    B, T, d_model = d_out.shape
+    w2 = cache['w2']
+    a1 = cache['a1'].reshape(B * T, -1)
+    h1 = cache['h1'].reshape(B * T, -1)
+    w1 = cache['w1']
+    x = cache['x'].reshape(B * T, d_model)
+    d_out_2d = d_out.reshape(B * T, d_model)
+
+    cache_new = {'w': w2, 'x': a1}
+    da1 = linear_backward_dx(d_out_2d, cache_new)
+    db2 = bias_add_backward_db(d_out_2d , cache_new)
+    dw2 = linear_backward_dw(d_out_2d, cache_new)
+    
+    d_relu = relu_backward(da1,{'x': h1})
+
+    cache_new2 = {'w': w1, 'x': x}
+    dx = linear_backward_dx(d_relu, cache_new2)
+    db1 = bias_add_backward_db(d_relu, cache_new2)
+    dw1 = linear_backward_dw(d_relu, cache_new2)
+    return {'dx':dx.reshape(B, T, d_model), 'dw1':dw1, 'db1':db1, 'dw2':dw2, 'db2':db2}
 
 # Step 135 - residual_forward (not yet solved)
 # TODO: implement
